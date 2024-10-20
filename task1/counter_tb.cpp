@@ -5,6 +5,7 @@
 int main(int argc, char **argv, char **env)
 {
     int i;
+    int a=0;
     int clk;
 
     Verilated::commandArgs(argc, argv);
@@ -20,10 +21,19 @@ int main(int argc, char **argv, char **env)
     top->clk = 1;
     top->rst = 1;
     top->en = 0;
+    top->count = 0;
 
     // run simulation for many clock cycles
-    for (i = 0; i < 300; i++)
-    {
+    for (i = 0; i < 300; i++){
+        if(top->count == 9){
+            if(a<3){
+                top->en = 0;
+                a++;
+            }
+            else{
+                top->en = 1;
+            }
+        }
         // dump variables into VCD file and toggle clock
         for (clk = 0; clk < 2; clk++)
         {
